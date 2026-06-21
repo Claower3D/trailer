@@ -98,6 +98,7 @@ function HomeCatalog() {
             <div key={trailer.id} className="home-trailer-row" style={{
               display: 'flex', 
               alignItems: 'center',
+              flexWrap: 'wrap',
               gap: '4rem',
               background: '#131316',
               borderRadius: '24px',
@@ -106,7 +107,7 @@ function HomeCatalog() {
               boxShadow: '0 20px 40px rgba(0,0,0,0.4)'
             }}>
               
-              <div className="home-trailer-info" style={{flex: 1}}>
+              <div className="home-trailer-info" style={{flex: '1 1 400px'}}>
                 <h3 style={{fontSize: '2.5rem', fontWeight: '900', marginBottom: '1.5rem', color: '#ffffff', letterSpacing: '-0.5px'}}>{trailer.title}</h3>
                 <p style={{fontSize: '1.1rem', color: '#a1a1aa', lineHeight: '1.6', marginBottom: '2rem'}}>{trailer.description}</p>
                 
@@ -119,7 +120,7 @@ function HomeCatalog() {
                   ))}
                 </ul>
 
-                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '2rem', paddingTop: '2rem', borderTop: '1px solid #27272a'}}>
+                <div style={{display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '2rem', justifyContent: 'space-between', marginTop: '2rem', paddingTop: '2rem', borderTop: '1px solid #27272a'}}>
                   <div>
                     <div style={{color: '#71717a', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.2rem', fontWeight: '700'}}>Цена</div>
                     <div style={{fontSize: '2.2rem', fontWeight: '900', color: '#00e57c'}}>${trailer.price.toLocaleString()}</div>
@@ -132,7 +133,7 @@ function HomeCatalog() {
                 </div>
               </div>
 
-              <div className="home-trailer-image" style={{flex: 1, height: '400px', borderRadius: '16px', overflow: 'hidden', position: 'relative', background: '#000'}}>
+              <div className="home-trailer-image" style={{flex: '1 1 400px', height: '400px', borderRadius: '16px', overflow: 'hidden', position: 'relative', background: '#000'}}>
                 <div style={{position: 'absolute', inset: 0, background: 'linear-gradient(45deg, rgba(0,229,124,0.05), transparent)', zIndex: 1}}></div>
                 <img src={trailer.imageUrl} alt={trailer.title} style={{width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease'}} />
               </div>
