@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import './i18n';
 import './App.css';
@@ -135,8 +135,10 @@ function About() {
 }
 
 function Admin() {
+  const navigate = useNavigate();
   const [trailers, setTrailers] = useState([]);
   const [editingId, setEditingId] = useState(null);
+  const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({ title: '', description: '', price: '', imageUrl: '', features: '' });
 
   const API_URL = import.meta.env.DEV ? 'http://localhost:8080/api/trailers' : '/api/trailers';
@@ -169,13 +171,14 @@ function Admin() {
       body: JSON.stringify(payload)
     }).then(() => {
       setEditingId(null);
+      setShowForm(false);
       setFormData({ title: '', description: '', price: '', imageUrl: '', features: '' });
       fetchTrailers();
     });
   };
 
   const handleDelete = (id) => {
-    if(window.confirm('Вы уверены?')) {
+    if(window.confirm('Удалить этот прицеп?')) {
       fetch(`${API_URL}?id=${id}`, { method: 'DELETE' }).then(() => fetchTrailers());
     }
   };
@@ -189,64 +192,133 @@ function Admin() {
       imageUrl: t.imageUrl,
       features: t.features.join(', ')
     });
+    setShowForm(true);
   };
 
   return (
-    <section className="section" style={{minHeight: '100vh', paddingTop: '120px'}}>
-      <div className="section-header">
-        <h2 className="section-title">Админ Панель</h2>
-      </div>
-      <div style={{maxWidth: '800px', margin: '0 auto', background: 'var(--surface-color)', padding: '2rem', borderRadius: '12px'}}>
-        <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '3rem'}}>
-          <input name="title" value={formData.title} onChange={handleChange} placeholder="Название" required style={{padding: '0.8rem', borderRadius: '8px', border: 'none'}} />
-          <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Описание" required style={{padding: '0.8rem', borderRadius: '8px', minHeight: '100px', border: 'none', fontFamily: 'inherit'}} />
-          <input name="price" type="number" value={formData.price} onChange={handleChange} placeholder="Цена ($)" required style={{padding: '0.8rem', borderRadius: '8px', border: 'none'}} />
-          <input name="imageUrl" value={formData.imageUrl} onChange={handleChange} placeholder="URL картинки" required style={{padding: '0.8rem', borderRadius: '8px', border: 'none'}} />
-          <input name="features" value={formData.features} onChange={handleChange} placeholder="Характеристики (через запятую)" required style={{padding: '0.8rem', borderRadius: '8px', border: 'none'}} />
-          <button type="submit" className="cta-btn" style={{marginTop: '1rem', width: '100%'}}>
-            {editingId ? 'Сохранить изменения' : 'Добавить прицеп'}
-          </button>
-          {editingId && <button type="button" onClick={() => {setEditingId(null); setFormData({ title: '', description: '', price: '', imageUrl: '', features: '' })}} className="cta-btn-outline" style={{width: '100%'}}>Отмена</button>}
-        </form>
-
-        <div style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
-          {trailers.map(t => (
-            <div key={t.id} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--bg-color)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--border-color)'}}>
-              <div>
-                <h4 style={{color: 'white', marginBottom: '0.2rem'}}>{t.title}</h4>
-                <p style={{color: 'var(--primary)', fontWeight: 'bold'}}>${t.price}</p>
+    <div className="admin-layout">
+      <aside className="admin-sidebar">
+        <div className="admin-logo">
+          Trailer<span>Pro</span> <small>Admin</small>
+        </div>
+        <nav className="admin-nav">
+          <div className="admin-nav-item active">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            Каталог
+          </div>
+          <div className="admin-nav-item" onClick={() => navigate('/')}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            На сайт
+          </div>
+        </nav>
+      </aside>
+      <main className="admin-main">
+        <header className="admin-topbar">
+          <h2 style={{fontWeight: 800, fontSize: '1.5rem'}}>Управление каталогом</h2>
+          <div style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
+            <div style={{width: 40, height: 40, borderRadius: '50%', background: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold'}}>A</div>
+          </div>
+        </header>
+        <div className="admin-content">
+          
+          <div className="admin-stat-cards">
+            <div className="admin-stat-card">
+              <div className="admin-stat-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
               </div>
-              <div style={{display: 'flex', gap: '0.5rem'}}>
-                <button onClick={() => handleEdit(t)} style={{background: 'var(--surface-color-light)', color: 'white', padding: '0.5rem 1rem', borderRadius: '4px'}}>Ред.</button>
-                <button onClick={() => handleDelete(t.id)} style={{background: '#ef4444', color: 'white', padding: '0.5rem 1rem', borderRadius: '4px'}}>Удалить</button>
+              <div className="admin-stat-info">
+                <h3>Всего прицепов</h3>
+                <p>{trailers.length}</p>
               </div>
             </div>
-          ))}
+          </div>
+
+          <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem'}}>
+            <h3 style={{fontSize: '1.5rem'}}>Список моделей</h3>
+            {!showForm && (
+              <button onClick={() => setShowForm(true)} className="cta-btn" style={{padding: '0.8rem 1.5rem', fontSize: '0.9rem'}}>+ Добавить прицеп</button>
+            )}
+          </div>
+
+          {showForm ? (
+            <div style={{background: 'var(--surface-color)', padding: '2rem', borderRadius: '12px', border: '1px solid var(--border-color)', marginBottom: '2rem'}}>
+              <h3 style={{marginBottom: '1.5rem'}}>{editingId ? 'Редактировать прицеп' : 'Новый прицеп'}</h3>
+              <form onSubmit={handleSubmit} style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem'}}>
+                <div style={{gridColumn: '1 / -1'}}><input className="admin-input" name="title" value={formData.title} onChange={handleChange} placeholder="Название модели" required /></div>
+                <div style={{gridColumn: '1 / -1'}}><textarea className="admin-input" name="description" value={formData.description} onChange={handleChange} placeholder="Полное описание" required style={{minHeight: '120px'}} /></div>
+                <div><input className="admin-input" name="price" type="number" value={formData.price} onChange={handleChange} placeholder="Цена в $" required /></div>
+                <div><input className="admin-input" name="imageUrl" value={formData.imageUrl} onChange={handleChange} placeholder="URL изображения" required /></div>
+                <div style={{gridColumn: '1 / -1'}}><input className="admin-input" name="features" value={formData.features} onChange={handleChange} placeholder="Характеристики (через запятую)" required /></div>
+                <div style={{gridColumn: '1 / -1', display: 'flex', gap: '1rem', marginTop: '1rem'}}>
+                  <button type="submit" className="cta-btn">{editingId ? 'Сохранить' : 'Добавить'}</button>
+                  <button type="button" onClick={() => {setShowForm(false); setEditingId(null); setFormData({ title: '', description: '', price: '', imageUrl: '', features: '' })}} className="cta-btn-outline">Отмена</button>
+                </div>
+              </form>
+            </div>
+          ) : (
+            <div className="admin-table-container">
+              <table className="admin-table">
+                <thead>
+                  <tr>
+                    <th>Фото</th>
+                    <th>Название</th>
+                    <th>Цена</th>
+                    <th style={{textAlign: 'right'}}>Действия</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {trailers.map(t => (
+                    <tr key={t.id}>
+                      <td style={{width: '80px'}}><img src={t.imageUrl} alt={t.title} style={{width: '60px', height: '40px', objectFit: 'cover', borderRadius: '4px'}} /></td>
+                      <td style={{fontWeight: 'bold'}}>{t.title}</td>
+                      <td style={{color: 'var(--primary)', fontWeight: 'bold'}}>${t.price}</td>
+                      <td style={{textAlign: 'right'}}>
+                        <button onClick={() => handleEdit(t)} className="admin-action-btn">
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                        </button>
+                        <button onClick={() => handleDelete(t.id)} className="admin-action-btn delete" style={{marginLeft: '0.5rem'}}>
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
-      </div>
-    </section>
+      </main>
+    </div>
+  );
+}
+
+function MainLayout() {
+  const { t } = useTranslation();
+  return (
+    <div className="app-container">
+      <Header />
+      <main style={{flexGrow: 1}}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/catalog" element={<Catalog />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
+      </main>
+      <footer className="footer">
+        <div className="footer-logo">Trailer<span>Pro</span></div>
+        <p>© 2026 TrailerPro Industries. {t('footer_rights')}</p>
+      </footer>
+    </div>
   );
 }
 
 function App() {
-  const { t } = useTranslation();
   return (
     <Router>
-      <div className="app-container">
-        <Header />
-        <main style={{flexGrow: 1}}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/catalog" element={<Catalog />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/admin" element={<Admin />} />
-          </Routes>
-        </main>
-        <footer className="footer">
-          <div className="footer-logo">Trailer<span>Pro</span></div>
-          <p>© 2026 TrailerPro Industries. {t('footer_rights')}</p>
-        </footer>
-      </div>
+      <Routes>
+        <Route path="/admin/*" element={<Admin />} />
+        <Route path="/*" element={<MainLayout />} />
+      </Routes>
     </Router>
   );
 }
