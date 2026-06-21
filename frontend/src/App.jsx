@@ -101,6 +101,7 @@ function Home() {
       <HeroBanner />
       <CategoryCards />
       <TrailerCatalog />
+      <CategoryIcons />
     </>
   );
 }
@@ -516,6 +517,129 @@ function TrailerCatalog() {
           ))}
         </div>
       )}
+    </section>
+  );
+}
+
+// ─── CATEGORY ICONS ───────────────────────────────────────────────────────
+function CategoryIcons() {
+  const [active, setActive] = useState(null);
+
+  const cats = [
+    {
+      id: 0,
+      label: 'ДЛЯ ГРУЗОВ',
+      icon: (
+        <svg viewBox="0 0 80 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="8" width="52" height="28" rx="3" stroke="currentColor" strokeWidth="3"/>
+          <rect x="56" y="16" width="20" height="20" rx="2" stroke="currentColor" strokeWidth="3"/>
+          <circle cx="18" cy="44" r="7" stroke="currentColor" strokeWidth="3"/>
+          <circle cx="62" cy="44" r="7" stroke="currentColor" strokeWidth="3"/>
+          <line x1="4" y1="36" x2="76" y2="36" stroke="currentColor" strokeWidth="3"/>
+        </svg>
+      ),
+    },
+    {
+      id: 1,
+      label: 'ДЛЯ ЛОДОК',
+      icon: (
+        <svg viewBox="0 0 80 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 28 Q20 10 40 12 Q60 14 72 28" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/>
+          <line x1="40" y1="12" x2="40" y2="4" stroke="currentColor" strokeWidth="3"/>
+          <path d="M8 28 L4 36 L76 36 L72 28" stroke="currentColor" strokeWidth="3"/>
+          <circle cx="18" cy="44" r="7" stroke="currentColor" strokeWidth="3"/>
+          <circle cx="62" cy="44" r="7" stroke="currentColor" strokeWidth="3"/>
+        </svg>
+      ),
+    },
+    {
+      id: 2,
+      label: 'ДЛЯ КВАДРОЦИКЛОВ',
+      icon: (
+        <svg viewBox="0 0 80 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="14" width="44" height="22" rx="3" stroke="currentColor" strokeWidth="3"/>
+          <path d="M48 20 L72 20 L72 36 L48 36" stroke="currentColor" strokeWidth="3" strokeLinejoin="round"/>
+          <circle cx="55" cy="22" r="4" stroke="currentColor" strokeWidth="2.5"/>
+          <circle cx="16" cy="44" r="7" stroke="currentColor" strokeWidth="3"/>
+          <circle cx="60" cy="44" r="7" stroke="currentColor" strokeWidth="3"/>
+          <line x1="4" y1="36" x2="76" y2="36" stroke="currentColor" strokeWidth="3"/>
+        </svg>
+      ),
+    },
+    {
+      id: 3,
+      label: 'ДЛЯ СНЕГОХОДОВ',
+      icon: (
+        <svg viewBox="0 0 80 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="14" width="50" height="22" rx="3" stroke="currentColor" strokeWidth="3"/>
+          <path d="M54 18 L76 24 L76 36 L54 36" stroke="currentColor" strokeWidth="3" strokeLinejoin="round"/>
+          <circle cx="16" cy="44" r="7" stroke="currentColor" strokeWidth="3"/>
+          <circle cx="60" cy="44" r="7" stroke="currentColor" strokeWidth="3"/>
+          <line x1="4" y1="36" x2="76" y2="36" stroke="currentColor" strokeWidth="3"/>
+          <line x1="20" y1="14" x2="20" y2="8" stroke="currentColor" strokeWidth="2.5"/>
+          <line x1="36" y1="14" x2="36" y2="8" stroke="currentColor" strokeWidth="2.5"/>
+        </svg>
+      ),
+    },
+    {
+      id: 4,
+      label: 'КОММЕРЧЕСКИЕ',
+      icon: (
+        <svg viewBox="0 0 80 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="6" width="58" height="30" rx="3" stroke="currentColor" strokeWidth="3"/>
+          <rect x="60" y="12" width="18" height="24" rx="2" stroke="currentColor" strokeWidth="3"/>
+          <circle cx="16" cy="44" r="7" stroke="currentColor" strokeWidth="3"/>
+          <circle cx="50" cy="44" r="7" stroke="currentColor" strokeWidth="3"/>
+          <circle cx="70" cy="44" r="7" stroke="currentColor" strokeWidth="3"/>
+          <line x1="2" y1="36" x2="78" y2="36" stroke="currentColor" strokeWidth="3"/>
+        </svg>
+      ),
+    },
+    {
+      id: 5,
+      label: 'ЗАПЧАСТИ',
+      icon: (
+        <svg viewBox="0 0 80 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="40" cy="27" r="18" stroke="currentColor" strokeWidth="3"/>
+          <circle cx="40" cy="27" r="8" stroke="currentColor" strokeWidth="3"/>
+          <line x1="40" y1="4" x2="40" y2="14" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/>
+          <line x1="40" y1="40" x2="40" y2="50" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/>
+          <line x1="17" y1="27" x2="27" y2="27" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/>
+          <line x1="53" y1="27" x2="63" y2="27" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/>
+        </svg>
+      ),
+    },
+  ];
+
+  return (
+    <section style={{ background: 'var(--surface-color)', padding: '5rem 2rem', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)' }}>
+      <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
+
+        {/* Heading */}
+        <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
+          <div style={{ display: 'inline-block', color: 'var(--primary)', fontSize: '0.8rem', fontWeight: '800', letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '0.8rem', padding: '0.4rem 1.2rem', border: '1px solid rgba(249,115,22,0.3)', borderRadius: '100px', background: 'rgba(249,115,22,0.08)' }}>
+            Категории товаров
+          </div>
+          <h2 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: '900', color: 'var(--text-main)', letterSpacing: '-0.5px' }}>
+            Найдите прицеп под вашу задачу
+          </h2>
+        </div>
+
+        {/* Icons row */}
+        <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+          {cats.map(cat => (
+            <button
+              key={cat.id}
+              className={`cat-icon-btn ${active === cat.id ? 'active' : ''}`}
+              onClick={() => setActive(active === cat.id ? null : cat.id)}
+            >
+              <div className="cat-icon-svg">{cat.icon}</div>
+              <span className="cat-icon-label">{cat.label}</span>
+            </button>
+          ))}
+        </div>
+
+      </div>
     </section>
   );
 }

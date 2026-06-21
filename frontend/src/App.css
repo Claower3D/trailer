@@ -464,6 +464,71 @@
   box-shadow: 0 8px 30px rgba(0,0,0,0.1);
 }
 
+/* ═══════════════════════════════════════════════════
+   CATEGORY ICONS SECTION
+═══════════════════════════════════════════════════ */
+.cat-icon-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem 1.5rem;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: var(--transition);
+  min-width: 150px;
+  flex: 1 1 130px;
+  max-width: 180px;
+  position: relative;
+  overflow: hidden;
+}
+.cat-icon-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(249,115,22,0.08), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.cat-icon-btn:hover::before,
+.cat-icon-btn.active::before {
+  opacity: 1;
+}
+.cat-icon-btn:hover {
+  border-color: var(--primary);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(249,115,22,0.2);
+}
+.cat-icon-btn.active {
+  border-color: var(--primary);
+  box-shadow: 0 8px 25px rgba(249,115,22,0.25);
+}
+.cat-icon-svg {
+  width: 80px;
+  height: 55px;
+  color: var(--text-muted);
+  transition: color 0.3s;
+}
+.cat-icon-btn:hover .cat-icon-svg,
+.cat-icon-btn.active .cat-icon-svg {
+  color: var(--primary);
+}
+.cat-icon-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: color 0.3s;
+  text-align: center;
+}
+.cat-icon-btn:hover .cat-icon-label,
+.cat-icon-btn.active .cat-icon-label {
+  color: var(--primary);
+}
+
 .app-container {
   min-height: 100vh;
   display: flex;
