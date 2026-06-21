@@ -102,7 +102,137 @@ function Home() {
       <CategoryCards />
       <TrailerCatalog />
       <CategoryIcons />
+      <AdvantagesSection />
+      <AboutSection />
     </>
+  );
+}
+
+// ─── ADVANTAGES + CTA BANNER ─────────────────────────────────────────────
+function AdvantagesSection() {
+  const blocks = [
+    {
+      icon: (
+        <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <rect x="2" y="3" width="20" height="14" rx="2"/>
+          <path d="M8 21h8M12 17v4"/>
+          <path d="M7 8h10M7 11h6"/>
+        </svg>
+      ),
+      title: 'Большой выбор продукции',
+      text: 'Двухосные прицепы часто требуются для тяжёлых работ с высокими требованиями к перевозке. Эти транспортные средства отличаются высокой грузоподъёмностью, увеличенным сроком службы, повышенной устойчивостью на дороге и дополнительной прочностью.',
+    },
+    {
+      icon: (
+        <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <rect x="1" y="8" width="15" height="9" rx="1"/>
+          <rect x="16" y="10" width="7" height="7" rx="1"/>
+          <circle cx="5" cy="20" r="2"/>
+          <circle cx="19" cy="20" r="2"/>
+          <path d="M1 17h22"/>
+        </svg>
+      ),
+      title: 'Преимущества двухосных прицепов',
+      text: 'Прицепы двухосные — идеальный вариант для транспортировки тяжёлых товаров. Двойные оси предлагают многочисленные эксплуатационные преимущества. Двухосные прицепы обладают повышенной грузоподъёмностью, а также способны перевозить автомобили.',
+    },
+    {
+      icon: (
+        <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <polyline points="9 12 11 14 15 10"/>
+        </svg>
+      ),
+      title: 'Гарантия и сервис',
+      text: 'Мы предоставляем официальную гарантию производителя 12 месяцев на все прицепы. Наш сервисный центр выполняет техническое обслуживание и ремонт. Помогаем с регистрацией прицепа в органах ГАИ.',
+    },
+    {
+      icon: (
+        <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <rect x="2" y="5" width="20" height="14" rx="2"/>
+          <line x1="2" y1="10" x2="22" y2="10"/>
+          <path d="M6 15h4M14 15h4"/>
+        </svg>
+      ),
+      title: 'Рассрочка и кредит 0%',
+      text: 'Оформите прицеп в рассрочку 0% через Kaspi банк, Альфа банк или Евразийский банк прямо на месте. Минимальный пакет документов. Одобрение за 15 минут.',
+    },
+  ];
+
+  return (
+    <>
+      {/* Advantages cards */}
+      <section style={{ background: 'var(--bg-color)', padding: '5rem 2rem 3rem' }}>
+        <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+            <div style={{ display: 'inline-block', color: 'var(--primary)', fontSize: '0.8rem', fontWeight: '800', letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '0.8rem', padding: '0.4rem 1.2rem', border: '1px solid rgba(249,115,22,0.3)', borderRadius: '100px', background: 'rgba(249,115,22,0.08)' }}>О наших прицепах</div>
+            <h2 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: '900', color: 'var(--text-main)', letterSpacing: '-0.5px' }}>Почему стоит выбрать нас</h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+            {blocks.map((b, i) => (
+              <div key={i} className="adv-card">
+                <div className="adv-card-icon">{b.icon}</div>
+                <h3 className="adv-card-title">{b.title}</h3>
+                <p className="adv-card-text">{b.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Banner */}
+      <div className="cta-banner">
+        <p className="cta-banner-text">
+          Если вы хотите купить автоприцеп в Алматы или любой другой части Республики Казахстан —{' '}
+          <strong>TrailerPro — это то, что вам нужно.</strong>
+        </p>
+        <a href="tel:+77000000000" className="cta-banner-btn">+7 700 000 00 00</a>
+      </div>
+    </>
+  );
+}
+
+// ─── ABOUT SECTION ──────────────────────────────────────────────────────
+function AboutSection() {
+  return (
+    <section style={{ background: 'var(--bg-color)', padding: '5rem 2rem 6rem' }}>
+      <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
+
+        {/* О компании */}
+        <div className="about-row">
+          <div className="about-text">
+            <h2 className="about-title">О КОМПАНИИ</h2>
+            <p className="about-p">TrailerPro предлагает автомобилистам одноосные и двухосные прицепы из сверхпрочных материалов, обеспечивающих максимальную производительность и долговечность. Наши прицепы приспособлены для отечественных условий эксплуатации.</p>
+            <p className="about-p">В дополнение к отличной продукции мы предлагаем купить запчасти для прицепов. А если ваш автомобиль всё ещё не приспособлен для езды с прицепом — у нас можно купить фаркоп и установить его на своё транспортное средство.</p>
+            <p className="about-p">Если вы ищете отличные специальные предложения и лучшие прицепы в Казахстане — свяжитесь с TrailerPro уже сегодня.</p>
+          </div>
+          <div className="about-img-wrap">
+            <img src="/cargo_trailer.png" alt="О компании" className="about-img" />
+          </div>
+        </div>
+
+        {/* Купить прицепы */}
+        <div className="about-row" style={{ marginTop: '4rem' }}>
+          <div className="about-text">
+            <h2 className="about-title">Купить прицепы для легковых автомобилей в Казахстане</h2>
+            <p className="about-p">TrailerPro — крупный поставщик автомобильных прицепов и запчастей, предлагающий самые современные и функциональные решения для транспортировки грузов. Компания является одной из крупнейших точек в Казахстане по продаже прицепов.</p>
+            <h3 style={{ fontSize: '1.3rem', fontWeight: '800', color: 'var(--text-main)', margin: '1.5rem 0 0.8rem' }}>Что предлагает TrailerPro</h3>
+            <ul className="about-list">
+              {['Фаркопы', 'Запчасти', 'Одноосные прицепы', 'Двухосные прицепы', 'Прицепы для водной техники'].map((item, i) => (
+                <li key={i} className="about-list-item">
+                  <span className="about-list-dot" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <p className="about-p" style={{ marginTop: '1rem' }}>Также в ассортименте представлены прицепы для тяжёлых условий эксплуатации. Доставка по всему Казахстану или бесплатный самовывоз со склада в Алматы.</p>
+          </div>
+          <div className="about-img-wrap">
+            <img src="/utility_trailer.png" alt="Купить прицепы" className="about-img" />
+          </div>
+        </div>
+
+      </div>
+    </section>
   );
 }
 
