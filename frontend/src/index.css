@@ -12,6 +12,23 @@
   --glass-bg: rgba(20, 27, 45, 0.7);
   --glass-border: rgba(255, 255, 255, 0.1);
   --transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  --card-bg: #131316;
+  --card-border: rgba(255, 255, 255, 0.03);
+}
+
+[data-theme="light"] {
+  --bg-color: #f0f4f8;
+  --surface-color: #ffffff;
+  --surface-color-light: #e8edf3;
+  --primary: #f97316;
+  --primary-hover: #ea580c;
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --border-color: rgba(0, 0, 0, 0.08);
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(0, 0, 0, 0.1);
+  --card-bg: #ffffff;
+  --card-border: rgba(0, 0, 0, 0.06);
 }
 
 * {
