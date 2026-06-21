@@ -158,26 +158,103 @@ function HeroBanner() {
   );
 }
 
-// ─── CATEGORY CARDS ──────────────────────────────────────────────────────
+// ─── CATEGORY SLIDER ─────────────────────────────────────────────────────
 function CategoryCards() {
-  const categories = [
-    { id: 1, label: 'АВТОПРИЦЕПЫ', name: 'ОДНООСНЫЕ', img: '/utility_trailer.png' },
-    { id: 2, label: 'АВТОПРИЦЕПЫ', name: 'ДВУХОСНЫЕ', img: '/cargo_trailer.png' },
-    { id: 3, label: 'ПРИЦЕПЫ', name: 'ДЛЯ ЛОДОК', img: '/boat_trailer.png' },
+  const [current, setCurrent] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const slides = [
+    {
+      id: 1,
+      label: 'АВТОПРИЦЕПЫ',
+      name: 'ОДНООСНЫЕ',
+      desc: 'Лёгкие и манёвренные прицепы для перевозки любых грузов. Идеальны для легковых автомобилей.',
+      img: '/utility_trailer.png',
+      badge: 'Хит продаж',
+      price: '450 000 ₸'
+    },
+    {
+      id: 2,
+      label: 'АВТОПРИЦЕПЫ',
+      name: 'ДВУХОСНЫЕ',
+      desc: 'Надёжные двухосные прицепы с усиленной рамой для перевозки тяжёлых и габаритных грузов.',
+      img: '/cargo_trailer.png',
+      badge: 'Рассрочка 0%',
+      price: '850 000 ₸'
+    },
+    {
+      id: 3,
+      label: 'ПРИЦЕПЫ',
+      name: 'ДЛЯ ЛОДОК',
+      desc: 'Специализированные лодочные прицепы с оцинкованной рамой для удобного спуска на воду.',
+      img: '/boat_trailer.png',
+      badge: 'Новинка',
+      price: '680 000 ₸'
+    },
   ];
+
+  const goTo = (idx) => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setCurrent(idx);
+    setTimeout(() => setIsAnimating(false), 600);
+  };
+
+  const prev = () => goTo((current - 1 + slides.length) % slides.length);
+  const next = () => goTo((current + 1) % slides.length);
+
+  useEffect(() => {
+    const timer = setInterval(() => next(), 4500);
+    return () => clearInterval(timer);
+  }, [current]);
+
+  const slide = slides[current];
+
   return (
-    <section style={{ padding: '2rem', maxWidth: '1300px', margin: '0 auto' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
-        {categories.map(cat => (
-          <div key={cat.id} className="cat-card">
-            <div className="cat-card-text">
-              <div className="cat-card-label">{cat.label}</div>
-              <div className="cat-card-name">{cat.name}</div>
+    <section style={{ padding: '2rem 2rem 3rem', maxWidth: '1300px', margin: '0 auto' }}>
+      <div className="slider-wrap">
+
+        {/* Slide */}
+        <div className="slider-slide" key={current} style={{ animationName: 'sliderIn' }}>
+          {/* Left info */}
+          <div className="slider-info">
+            <div className="slider-badge">{slide.badge}</div>
+            <div className="slider-label">{slide.label}</div>
+            <h2 className="slider-title">{slide.name}</h2>
+            <p className="slider-desc">{slide.desc}</p>
+            <div className="slider-price">{slide.price}</div>
+            <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem', flexWrap: 'wrap' }}>
               <button className="cat-card-btn">ПОДРОБНЕЕ</button>
+              <button className="slider-order-btn">ЗАКАЗАТЬ</button>
             </div>
-            <img src={cat.img} alt={cat.name} className="cat-card-img" />
           </div>
-        ))}
+
+          {/* Right image */}
+          <div className="slider-img-wrap">
+            <img src={slide.img} alt={slide.name} className="slider-img" />
+          </div>
+        </div>
+
+        {/* Controls */}
+        <button className="slider-arrow slider-arrow-prev" onClick={prev}>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button className="slider-arrow slider-arrow-next" onClick={next}>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+
+        {/* Dots */}
+        <div className="slider-dots">
+          {slides.map((_, i) => (
+            <button key={i} className={`slider-dot ${i === current ? 'active' : ''}`} onClick={() => goTo(i)} />
+          ))}
+        </div>
+
+        {/* Progress bar */}
+        <div className="slider-progress">
+          <div className="slider-progress-bar" key={current} />
+        </div>
+
       </div>
     </section>
   );
@@ -281,7 +358,7 @@ function Catalog() {
             <div key={trailer.id} className="trailer-card">
               <div className="image-wrapper">
                 <img src={trailer.imageUrl} alt={trailer.title} className="trailer-image" />
-                <div className="price-tag">${trailer.price.toLocaleString()}</div>
+                <div className="price-tag">{trailer.price.toLocaleString()} ₸</div>
               </div>
               <div className="trailer-content">
                 <h3 className="trailer-title">{trailer.title}</h3>
