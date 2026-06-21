@@ -201,7 +201,7 @@ function FullWidthBanner() {
             >
               Смотреть каталог
             </button>
-            <a href="tel:+77020111150" style={{
+            <a href="tel:+77000000000" style={{
               padding: '1.1rem 2.2rem',
               background: 'rgba(255,255,255,0.08)',
               color: '#fff',
@@ -223,7 +223,7 @@ function FullWidthBanner() {
             onMouseOut={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.25)'}
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.6 19.79 19.79 0 0 1 1.61 5a2 2 0 0 1 1.99-2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.4a16 16 0 0 0 5.95 5.95l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-              +7-702-011-11-50
+              +7 700 000 00 00
             </a>
           </div>
 
@@ -315,7 +315,7 @@ function HeroBanner() {
           <img src="/utility_trailer.png" alt="Прицепы и комплектующие" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(249,115,22,0.15) 0%, rgba(0,0,0,0.7) 100%)' }}/>
           <div style={{ position: 'absolute', top: '2rem', left: '2rem', color: '#fff', fontSize: '1.3rem', fontWeight: '800', letterSpacing: '1px', background: 'rgba(0,0,0,0.5)', padding: '0.5rem 1.2rem', borderRadius: '8px', backdropFilter: 'blur(8px)' }}>
-            +7-702-011-11-50
+            +7 700 000 00 00
           </div>
           <div className="hero-banner-label">
             ПРИЦЕПЫ И КОМПЛЕКТУЮЩИЕ
