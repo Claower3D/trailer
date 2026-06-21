@@ -59,7 +59,10 @@ func main() {
 	http.HandleFunc("/api/trailers", trailersHandler)
 
 	// Разделяем фронтенд для продакшена (Railway)
-	distPath := filepath.Join("..", "frontend", "dist")
+	distPath := os.Getenv("STATIC_DIR")
+	if distPath == "" {
+		distPath = filepath.Join("..", "frontend", "dist")
+	}
 	fs := http.FileServer(http.Dir(distPath))
 	http.Handle("/", fs)
 
