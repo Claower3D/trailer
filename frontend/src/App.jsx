@@ -4,6 +4,15 @@ import './App.css';
 function App() {
   const [trailers, setTrailers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     const API_URL = import.meta.env.DEV ? 'http://localhost:8080/api/trailers' : '/api/trailers';
@@ -21,51 +30,67 @@ function App() {
 
   return (
     <div className="app-container">
-      <header className="header">
+      <header className={`header ${scrolled ? 'scrolled' : ''}`}>
         <div className="logo">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-          TrailerPro
+          Trailer<span>Pro</span>
         </div>
         <nav className="nav-links">
           <a href="#home" className="nav-link">Главная</a>
-          <a href="#catalog" className="nav-link">Каталог</a>
+          <a href="#catalog" className="nav-link">Модели</a>
           <a href="#about" className="nav-link">О нас</a>
         </nav>
-        <button className="contact-btn">Связаться с нами</button>
+        <button className="contact-btn">Заказать звонок</button>
       </header>
 
       <main>
         <section id="home" className="hero">
+          <div className="hero-bg"></div>
+          <div className="hero-overlay"></div>
           <div className="hero-content">
-            <h1>Надежные прицепы для любых задач</h1>
-            <p>Высокое качество, прочность и безопасность. Выберите идеальный прицеп для вашего автомобиля уже сегодня.</p>
-            <button className="cta-btn" onClick={() => document.getElementById('catalog').scrollIntoView({ behavior: 'smooth' })}>
-              Смотреть каталог
-            </button>
+            <span className="badge">Премиум Качество 2026</span>
+            <h1>Надежные прицепы для экстремальных задач</h1>
+            <p>Созданы для долговечности. Спроектированы для удобства. Откройте для себя наш новый модельный ряд профессиональных прицепов для любых видов грузоперевозок.</p>
+            <div className="hero-buttons">
+              <button className="cta-btn" onClick={() => document.getElementById('catalog').scrollIntoView({ behavior: 'smooth' })}>
+                Смотреть каталог
+              </button>
+              <button className="cta-btn-outline">
+                Видеообзор
+              </button>
+            </div>
           </div>
         </section>
 
         <section id="catalog" className="section">
-          <h2 className="section-title">Каталог Прицепов</h2>
+          <div className="section-bg-glow"></div>
+          <div className="section-header">
+            <h3 className="section-subtitle">Модельный ряд</h3>
+            <h2 className="section-title">Выберите свой прицеп</h2>
+          </div>
           
           {loading ? (
-            <div style={{ textAlign: 'center', padding: '2rem' }}>Загрузка данных...</div>
+            <div style={{ textAlign: 'center', padding: '2rem', fontSize: '1.2rem', color: '#94a3b8' }}>Синхронизация с базой данных...</div>
           ) : (
             <div className="trailers-grid">
               {trailers.map(trailer => (
                 <div key={trailer.id} className="trailer-card">
-                  <img src={trailer.imageUrl} alt={trailer.title} className="trailer-image" />
+                  <div className="image-wrapper">
+                    <img src={trailer.imageUrl} alt={trailer.title} className="trailer-image" />
+                    <div className="price-tag">${trailer.price.toLocaleString()}</div>
+                  </div>
                   <div className="trailer-content">
                     <h3 className="trailer-title">{trailer.title}</h3>
                     <p className="trailer-desc">{trailer.description}</p>
                     <ul className="features-list">
                       {trailer.features.map((feature, idx) => (
-                        <li key={idx}>✓ {feature}</li>
+                        <li key={idx}>
+                          <svg className="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                          {feature}
+                        </li>
                       ))}
                     </ul>
                     <div className="trailer-footer">
-                      <span className="trailer-price">${trailer.price.toLocaleString()}</span>
-                      <button className="buy-btn">Купить</button>
+                      <button className="buy-btn">Оформить заявку</button>
                     </div>
                   </div>
                 </div>
@@ -76,7 +101,8 @@ function App() {
       </main>
 
       <footer className="footer">
-        <p>© 2026 TrailerPro. Все права защищены.</p>
+        <div className="footer-logo">Trailer<span>Pro</span></div>
+        <p>© 2026 TrailerPro Industries. Все права защищены.</p>
       </footer>
     </div>
   );

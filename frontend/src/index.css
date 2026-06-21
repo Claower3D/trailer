@@ -1,14 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&display=swap');
 
 :root {
-  --primary: #1d4ed8;
-  --primary-hover: #1e40af;
-  --secondary: #facc15;
-  --dark: #0f172a;
-  --dark-light: #1e293b;
-  --light: #f8fafc;
-  --gray: #64748b;
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --bg-color: #0b0f19;
+  --surface-color: #141b2d;
+  --surface-color-light: #1f2940;
+  --primary: #f97316;
+  --primary-hover: #ea580c;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --border-color: rgba(255, 255, 255, 0.05);
+  --glass-bg: rgba(20, 27, 45, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 * {
@@ -18,11 +21,12 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
-  background-color: var(--light);
-  color: var(--dark);
+  font-family: 'Outfit', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
   line-height: 1.6;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
 a {
@@ -34,4 +38,19 @@ button {
   cursor: pointer;
   border: none;
   font-family: inherit;
+  outline: none;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-color);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--surface-color-light);
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
 }
