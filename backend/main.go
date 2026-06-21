@@ -24,7 +24,7 @@ type Trailer struct {
 var (
 	trailers []Trailer
 	mutex    sync.Mutex
-	dataFile = "trailers.json"
+	dataFile = "trailers_v2.json"
 )
 
 func init() {
@@ -35,9 +35,9 @@ func loadTrailers() {
 	file, err := os.ReadFile(dataFile)
 	if err != nil {
 		trailers = []Trailer{
-			{ID: 1, Title: "Heavy Duty Utility Trailer", Description: "A rugged open utility trailer perfect for hauling equipment, ATVs, and heavy loads. Built with reinforced steel.", Price: 2500, ImageUrl: "https://images.unsplash.com/photo-1589139626577-fb3b361bb500?q=80&w=800&auto=format&fit=crop", Features: []string{"Steel Frame", "Fold-down ramp", "15-inch wheels"}},
-			{ID: 2, Title: "Enclosed Cargo Trailer", Description: "Secure and protect your valuable cargo with this sleek enclosed trailer. Features a weather-resistant exterior.", Price: 4800, ImageUrl: "https://images.unsplash.com/photo-1621250266016-11f8b65671da?q=80&w=800&auto=format&fit=crop", Features: []string{"Weather-resistant", "Side door access", "Rear ramp door"}},
-			{ID: 3, Title: "Pro Boat Trailer", Description: "Premium boat trailer designed for easy launching and retrieval. Adjustable bunks to fit various hull shapes.", Price: 3200, ImageUrl: "https://images.unsplash.com/photo-1594042838965-0317e3f81eb5?q=80&w=800&auto=format&fit=crop", Features: []string{"Galvanized frame", "Adjustable bunks", "Submersible lights"}},
+			{ID: 1, Title: "Усиленный грузовой прицеп", Description: "Прочный открытый грузовой прицеп, идеально подходящий для перевозки оборудования, квадроциклов и тяжелых грузов. Надежная стальная конструкция.", Price: 2500, ImageUrl: "/utility_trailer.png", Features: []string{"Стальная рама", "Откидной трап", "15-дюймовые колеса"}},
+			{ID: 2, Title: "Закрытый фургон-прицеп", Description: "Обеспечьте безопасность и сохранность вашего груза с помощью этого современного закрытого прицепа. Влагозащищенный корпус.", Price: 4800, ImageUrl: "/cargo_trailer.png", Features: []string{"Защита от влаги", "Боковая дверь", "Задняя дверь-трап"}},
+			{ID: 3, Title: "Прицеп для лодок Pro", Description: "Премиальный лодочный прицеп для удобного спуска на воду. Регулируемые направляющие под любую форму корпуса.", Price: 3200, ImageUrl: "/boat_trailer.png", Features: []string{"Оцинкованная рама", "Регулируемые упоры", "Водонепроницаемые фары"}},
 		}
 		saveTrailers()
 		return
