@@ -55,16 +55,34 @@ func trailersHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(trailers)
 }
 
+type spaHandler struct {
+	staticPath string
+	indexPath  string
+}
+
+func (h spaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	path := filepath.Join(h.staticPath, r.URL.Path)
+	_, err := os.Stat(path)
+	if os.IsNotExist(err) || r.URL.Path == "/" {
+		http.ServeFile(w, r, filepath.Join(h.staticPath, h.indexPath))
+		return
+	} else if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	http.FileServer(http.Dir(h.staticPath)).ServeHTTP(w, r)
+}
+
 func main() {
 	http.HandleFunc("/api/trailers", trailersHandler)
 
-	// Разделяем фронтенд для продакшена (Railway)
 	distPath := os.Getenv("STATIC_DIR")
 	if distPath == "" {
 		distPath = filepath.Join("..", "frontend", "dist")
 	}
-	fs := http.FileServer(http.Dir(distPath))
-	http.Handle("/", fs)
+
+	spa := spaHandler{staticPath: distPath, indexPath: "index.html"}
+	http.Handle("/", spa)
 
 	port := os.Getenv("PORT")
 	if port == "" {
