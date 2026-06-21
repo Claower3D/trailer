@@ -134,7 +134,222 @@ function About() {
   );
 }
 
-function Admin() {
+function AdminDashboard() {
+  const navigate = useNavigate();
+  const [trailersCount, setTrailersCount] = useState(0);
+
+  useEffect(() => {
+    const API_URL = import.meta.env.DEV ? 'http://localhost:8080/api/trailers' : '/api/trailers';
+    fetch(API_URL).then(res => res.json()).then(data => setTrailersCount(data.length)).catch(() => {});
+  }, []);
+
+  return (
+    <div style={{ backgroundColor: 'var(--bg-color)', minHeight: '100vh', color: 'var(--text-main)' }}>
+      <div className="admin-dashboard-header">
+        <div className="admin-dashboard-title">
+          <h1>Панель управления</h1>
+          <p>Управление промышленной платформой TrailerPro.</p>
+        </div>
+        <button className="apply-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{marginRight: '0.5rem'}}><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+          Применить изменения
+        </button>
+      </div>
+
+      <div className="dashboard-content">
+        <div className="dashboard-section-title">
+          <h4>Главная панель</h4>
+          <h2>Выберите раздел для управления</h2>
+          <p>Нажмите на плитку чтобы открыть нужный раздел администрирования.</p>
+        </div>
+
+        <div className="dashboard-grid">
+          {/* Card 1 */}
+          <div className="dashboard-card" onClick={() => navigate('/admin/leads')}>
+            <div className="dashboard-card-top">
+              <div className="dashboard-card-icon" style={{color: '#10b981', background: 'rgba(16, 185, 129, 0.1)'}}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+              </div>
+              <div className="dashboard-card-stat">
+                <div className="dashboard-card-stat-num">0</div>
+                <div className="dashboard-card-stat-label">Заявок</div>
+              </div>
+            </div>
+            <div className="dashboard-card-category">Клиентская база</div>
+            <div className="dashboard-card-title">Заявки и Лиды</div>
+            <div className="dashboard-card-desc">Обрабатывайте новые обращения клиентов, меняйте статусы и управляйте заказами.</div>
+            <div className="dashboard-card-action" style={{color: '#10b981'}}>Управление &rarr;</div>
+          </div>
+
+          {/* Card 2 */}
+          <div className="dashboard-card" onClick={() => navigate('/admin/catalog')}>
+            <div className="dashboard-card-top">
+              <div className="dashboard-card-icon" style={{color: '#3b82f6', background: 'rgba(59, 130, 246, 0.1)'}}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              </div>
+              <div className="dashboard-card-stat">
+                <div className="dashboard-card-stat-num">{trailersCount}</div>
+                <div className="dashboard-card-stat-label">Услуг</div>
+              </div>
+            </div>
+            <div className="dashboard-card-category">Список услуг</div>
+            <div className="dashboard-card-title">Каталог (Услуги)</div>
+            <div className="dashboard-card-desc">Управляйте описанием прицепов, изображениями, видео и переводами.</div>
+            <div className="dashboard-card-action" style={{color: '#3b82f6'}}>Управление &rarr;</div>
+          </div>
+
+          {/* Card 3 */}
+          <div className="dashboard-card" onClick={() => navigate('/admin/builder')}>
+            <div className="dashboard-card-top">
+              <div className="dashboard-card-icon" style={{color: '#8b5cf6', background: 'rgba(139, 92, 246, 0.1)'}}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+              </div>
+              <div className="dashboard-card-stat">
+                <div className="dashboard-card-stat-num">7</div>
+                <div className="dashboard-card-stat-label">Страниц</div>
+              </div>
+            </div>
+            <div className="dashboard-card-category">Конструктор страниц</div>
+            <div className="dashboard-card-title">Visual Builder</div>
+            <div className="dashboard-card-desc">Перетаскивайте блоки, добавляйте медиа и настраивайте каждую страницу сайта.</div>
+            <div className="dashboard-card-action" style={{color: '#8b5cf6'}}>Открыть Builder &rarr;</div>
+          </div>
+
+          {/* Card 4 */}
+          <div className="dashboard-card" onClick={() => navigate('/admin/content')}>
+            <div className="dashboard-card-top">
+              <div className="dashboard-card-icon" style={{color: '#eab308', background: 'rgba(234, 179, 8, 0.1)'}}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+              </div>
+              <div className="dashboard-card-stat">
+                <div className="dashboard-card-stat-num">3</div>
+                <div className="dashboard-card-stat-label">Языка</div>
+              </div>
+            </div>
+            <div className="dashboard-card-category">Тексты и переводы</div>
+            <div className="dashboard-card-title">Контент</div>
+            <div className="dashboard-card-desc">Редактируйте все тексты сайта на русском, казахском и английском языках.</div>
+            <div className="dashboard-card-action" style={{color: '#eab308'}}>Управление &rarr;</div>
+          </div>
+
+          {/* Card 5 */}
+          <div className="dashboard-card" onClick={() => navigate('/admin/bot')}>
+            <div className="dashboard-card-top">
+              <div className="dashboard-card-icon" style={{color: '#3b82f6', background: 'rgba(59, 130, 246, 0.1)'}}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path><line x1="8" y1="16" x2="8" y2="16"></line><line x1="16" y1="16" x2="16" y2="16"></line></svg>
+              </div>
+              <div className="dashboard-card-stat">
+                <div className="dashboard-card-stat-num">-</div>
+                <div className="dashboard-card-stat-label">Сценариев</div>
+              </div>
+            </div>
+            <div className="dashboard-card-category">Автоматизация</div>
+            <div className="dashboard-card-title">Бот Иришка</div>
+            <div className="dashboard-card-desc">Редактируйте сценарии ответов, ключевые слова и стандартные реплики ассистента.</div>
+            <div className="dashboard-card-action" style={{color: '#3b82f6'}}>Управление &rarr;</div>
+          </div>
+
+          {/* Card 6 */}
+          <div className="dashboard-card" onClick={() => navigate('/admin/seo')}>
+            <div className="dashboard-card-top">
+              <div className="dashboard-card-icon" style={{color: '#64748b', background: 'rgba(100, 116, 139, 0.1)'}}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>
+              </div>
+              <div className="dashboard-card-stat">
+                <div className="dashboard-card-stat-num" style={{fontSize: '1.2rem'}}>SEO</div>
+              </div>
+            </div>
+            <div className="dashboard-card-category">Контент и SEO</div>
+            <div className="dashboard-card-title">Настройка Статей</div>
+            <div className="dashboard-card-desc">Управление индивидуальными SEO-текстами для страниц.</div>
+            <div className="dashboard-card-action" style={{color: '#f8fafc'}}>Перейти в Каталог &rarr;</div>
+          </div>
+          
+          {/* Card 7 */}
+          <div className="dashboard-card" onClick={() => navigate('/admin/catalog')}>
+            <div className="dashboard-card-top">
+              <div className="dashboard-card-icon" style={{color: '#eab308', background: 'rgba(234, 179, 8, 0.1)'}}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              </div>
+              <div className="dashboard-card-stat">
+                <div className="dashboard-card-stat-num">-</div>
+                <div className="dashboard-card-stat-label">Категорий</div>
+              </div>
+            </div>
+            <div className="dashboard-card-category">Настройка карточек</div>
+            <div className="dashboard-card-title">Каталог услуг (Главная)</div>
+            <div className="dashboard-card-desc">Редактируйте фото и карточки каталога на главной странице.</div>
+            <div className="dashboard-card-action" style={{color: '#eab308'}}>Настроить фото &rarr;</div>
+          </div>
+          
+          {/* Card 8 */}
+          <div className="dashboard-card" onClick={() => navigate('/admin/gallery')}>
+            <div className="dashboard-card-top">
+              <div className="dashboard-card-icon" style={{color: '#ec4899', background: 'rgba(236, 72, 153, 0.1)'}}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+              </div>
+              <div className="dashboard-card-stat">
+                <div className="dashboard-card-stat-num">-</div>
+                <div className="dashboard-card-stat-label">Фото</div>
+              </div>
+            </div>
+            <div className="dashboard-card-category">Галерея</div>
+            <div className="dashboard-card-title">Наши работы</div>
+            <div className="dashboard-card-desc">Редактируйте фото блока "Наши работы" на всех страницах.</div>
+            <div className="dashboard-card-action" style={{color: '#ec4899'}}>Настроить фото &rarr;</div>
+          </div>
+          
+          {/* Card 9 */}
+          <div className="dashboard-card" onClick={() => navigate('/admin/staff')}>
+            <div className="dashboard-card-top">
+              <div className="dashboard-card-icon" style={{color: '#3b82f6', background: 'rgba(59, 130, 246, 0.1)'}}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+              </div>
+              <div className="dashboard-card-stat">
+                <div className="dashboard-card-stat-num">1</div>
+                <div className="dashboard-card-stat-label">Мастеров</div>
+              </div>
+            </div>
+            <div className="dashboard-card-category">Сотрудники</div>
+            <div className="dashboard-card-title">Наши мастера</div>
+            <div className="dashboard-card-desc">Управляйте списком мастеров: фото, имя, опыт работы.</div>
+            <div className="dashboard-card-action" style={{color: '#ef4444'}}>Редактировать мастеров &rarr;</div>
+          </div>
+          
+          {/* Card 10 */}
+          <div className="dashboard-card" onClick={() => navigate('/admin/security')}>
+            <div className="dashboard-card-top">
+              <div className="dashboard-card-icon" style={{color: '#f8fafc', background: 'rgba(255, 255, 255, 0.1)'}}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              </div>
+              <div className="dashboard-card-stat">
+                <div className="dashboard-card-stat-num">-</div>
+              </div>
+            </div>
+            <div className="dashboard-card-category">Безопасность</div>
+            <div className="dashboard-card-title" style={{marginBottom: '0'}}>Разрешённые IP и настройки</div>
+          </div>
+
+          {/* Back to site */}
+          <div className="dashboard-card" onClick={() => navigate('/')}>
+            <div className="dashboard-card-top">
+              <div className="dashboard-card-icon" style={{color: 'var(--text-main)', background: 'rgba(255, 255, 255, 0.1)'}}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+              </div>
+            </div>
+            <div className="dashboard-card-category">Сайт</div>
+            <div className="dashboard-card-title">Вернуться на сайт</div>
+            <div className="dashboard-card-desc">Перейти на главную страницу сайта для просмотра изменений.</div>
+            <div className="dashboard-card-action" style={{color: 'var(--text-main)'}}>Перейти &rarr;</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AdminCatalog() {
   const navigate = useNavigate();
   const [trailers, setTrailers] = useState([]);
   const [editingId, setEditingId] = useState(null);
@@ -206,9 +421,9 @@ function Admin() {
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
             Каталог
           </div>
-          <div className="admin-nav-item" onClick={() => navigate('/')}>
+          <div className="admin-nav-item" onClick={() => navigate('/admin')}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-            На сайт
+            Панель управления
           </div>
         </nav>
       </aside>
@@ -289,6 +504,15 @@ function Admin() {
         </div>
       </main>
     </div>
+  );
+}
+
+function Admin() {
+  return (
+    <Routes>
+      <Route path="/" element={<AdminDashboard />} />
+      <Route path="/catalog" element={<AdminCatalog />} />
+    </Routes>
   );
 }
 
