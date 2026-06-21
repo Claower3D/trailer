@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
+	"path/filepath"
 )
 
 type Trailer struct {
@@ -56,6 +58,16 @@ func trailersHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	http.HandleFunc("/api/trailers", trailersHandler)
 
-	fmt.Println("Backend server is running on http://localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	// Разделяем фронтенд для продакшена (Railway)
+	distPath := filepath.Join("..", "frontend", "dist")
+	fs := http.FileServer(http.Dir(distPath))
+	http.Handle("/", fs)
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	fmt.Printf("Backend server is running on port %s\n", port)
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }

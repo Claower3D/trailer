@@ -6,7 +6,8 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/trailers')
+    const API_URL = import.meta.env.DEV ? 'http://localhost:8080/api/trailers' : '/api/trailers';
+    fetch(API_URL)
       .then(res => res.json())
       .then(data => {
         setTrailers(data);
