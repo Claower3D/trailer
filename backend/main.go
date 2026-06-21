@@ -61,15 +61,32 @@ type spaHandler struct {
 }
 
 func (h spaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	// Disable caching for index.html
+	if r.URL.Path == "/" || r.URL.Path == "/index.html" {
+		w.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
+	}
+
 	path := filepath.Join(h.staticPath, r.URL.Path)
+	
+	// Determine if the request is looking for a file with an extension (like .js, .css, .png)
+	isAsset := filepath.Ext(path) != ""
+
 	_, err := os.Stat(path)
-	if os.IsNotExist(err) || r.URL.Path == "/" {
+	if os.IsNotExist(err) {
+		// If it's an asset and it's missing, return 404 (don't fallback to index.html)
+		if isAsset {
+			http.NotFound(w, r)
+			return
+		}
+		// Fallback to index.html for SPA routes
+		w.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
 		http.ServeFile(w, r, filepath.Join(h.staticPath, h.indexPath))
 		return
 	} else if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
 	http.FileServer(http.Dir(h.staticPath)).ServeHTTP(w, r)
 }
 

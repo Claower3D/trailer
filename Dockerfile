@@ -8,6 +8,7 @@ RUN go build -o main .
 
 # Final image
 FROM alpine:latest
+RUN apk add --no-cache mailcap
 WORKDIR /app
 COPY --from=backend-builder /app/backend/main ./
 # We copy the pre-built dist folder directly from the source code
