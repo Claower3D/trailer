@@ -95,137 +95,149 @@ function Header() {
 }
 
 function Home() {
-  const { t } = useTranslation();
   return (
     <>
-      <section className="hero">
-        <div className="hero-bg"></div>
-        <div className="hero-overlay"></div>
-        <div className="hero-content">
-          <span className="badge">{t('badge_premium')}</span>
-          <h1>{t('hero_title')}</h1>
-          <p>{t('hero_desc')}</p>
-          <div className="hero-buttons">
-            <Link to="/catalog" className="cta-btn">{t('btn_catalog')}</Link>
-            <button className="cta-btn-outline">{t('btn_video')}</button>
-          </div>
-        </div>
-      </section>
-      <HomeCatalog />
+      <HeroBanner />
+      <CategoryCards />
+      <TrailerCatalog />
     </>
   );
 }
 
-function HomeCatalog() {
-  const { t } = useTranslation();
+// ─── HERO BANNER ──────────────────────────────────────────────────────────
+function HeroBanner() {
+  return (
+    <section style={{ paddingTop: '90px', background: 'var(--bg-color)' }}>
+      <div style={{ maxWidth: '1300px', margin: '0 auto', padding: '3rem 2rem', display: 'flex', gap: '2rem', alignItems: 'stretch', flexWrap: 'wrap' }}>
+
+        {/* LEFT: Info blocks */}
+        <div style={{ flex: '0 0 280px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div className="info-block">
+            <div className="info-block-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div>
+              <h4 className="info-block-title">СКИДКА ПРИ ЗАКАЗЕ</h4>
+              <p className="info-block-text">Вы можете заказать прицеп со следующего поступления, если его нет в наличии или если просто хотите сэкономить.</p>
+            </div>
+          </div>
+          <div className="info-block">
+            <div className="info-block-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+            </div>
+            <div>
+              <h4 className="info-block-title">КРЕДИТ И РАССРОЧКА</h4>
+              <p className="info-block-text">Самые выгодные кредиты от Kaspi банк, Альфа банк и Евразийского банка. Купите сегодня — платите потом.</p>
+            </div>
+          </div>
+          <div className="info-block">
+            <div className="info-block-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div>
+              <h4 className="info-block-title">ГАРАНТИЯ 1 ГОД</h4>
+              <p className="info-block-text">На все прицепы распространяется официальная гарантия производителя сроком 12 месяцев.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT: Big hero image */}
+        <div className="hero-banner-img" style={{ flex: '1 1 600px', position: 'relative', borderRadius: '24px', overflow: 'hidden', minHeight: '400px' }}>
+          <img src="/utility_trailer.png" alt="Прицепы и комплектующие" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(249,115,22,0.15) 0%, rgba(0,0,0,0.7) 100%)' }}/>
+          <div style={{ position: 'absolute', top: '2rem', left: '2rem', color: '#fff', fontSize: '1.3rem', fontWeight: '800', letterSpacing: '1px', background: 'rgba(0,0,0,0.5)', padding: '0.5rem 1.2rem', borderRadius: '8px', backdropFilter: 'blur(8px)' }}>
+            +7-702-011-11-50
+          </div>
+          <div className="hero-banner-label">
+            ПРИЦЕПЫ И КОМПЛЕКТУЮЩИЕ
+          </div>
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
+// ─── CATEGORY CARDS ──────────────────────────────────────────────────────
+function CategoryCards() {
+  const categories = [
+    { id: 1, label: 'АВТОПРИЦЕПЫ', name: 'ОДНООСНЫЕ', img: '/utility_trailer.png' },
+    { id: 2, label: 'АВТОПРИЦЕПЫ', name: 'ДВУХОСНЫЕ', img: '/cargo_trailer.png' },
+    { id: 3, label: 'ПРИЦЕПЫ', name: 'ДЛЯ ЛОДОК', img: '/boat_trailer.png' },
+  ];
+  return (
+    <section style={{ padding: '2rem', maxWidth: '1300px', margin: '0 auto' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+        {categories.map(cat => (
+          <div key={cat.id} className="cat-card">
+            <div className="cat-card-text">
+              <div className="cat-card-label">{cat.label}</div>
+              <div className="cat-card-name">{cat.name}</div>
+              <button className="cat-card-btn">ПОДРОБНЕЕ</button>
+            </div>
+            <img src={cat.img} alt={cat.name} className="cat-card-img" />
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ─── TABBED CATALOG ──────────────────────────────────────────────────────
+function TrailerCatalog() {
   const [trailers, setTrailers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState(0);
+
+  const tabs = ['ВСЕ МОДЕЛИ', 'ОДНООСНЫЕ', 'ДВУХОСНЫЕ', 'ДЛЯ ЛОДОК'];
 
   useEffect(() => {
     const API_URL = import.meta.env.DEV ? 'http://localhost:8080/api/trailers' : '/api/trailers';
     fetch(API_URL)
       .then(res => res.json())
-      .then(data => {
-        setTrailers(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error("Error fetching trailers:", err);
-        setLoading(false);
-      });
+      .then(data => { setTrailers(data); setLoading(false); })
+      .catch(() => setLoading(false));
   }, []);
 
   return (
-    <section className="section" style={{ paddingTop: '80px', paddingBottom: '120px' }}>
-      <div className="section-header" style={{textAlign: 'center', marginBottom: '4rem'}}>
-        <h3 className="section-subtitle" style={{color: '#00e57c', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: '800'}}>{t('catalog_subtitle')}</h3>
-        <h2 className="section-title" style={{fontSize: '3rem', fontWeight: '900', marginTop: '1rem'}}>Выбор Моделей</h2>
+    <section style={{ padding: '4rem 2rem 6rem', maxWidth: '1300px', margin: '0 auto' }}>
+      <h2 style={{ fontSize: '2.5rem', fontWeight: '900', marginBottom: '2rem', color: 'var(--text-main)', textAlign: 'center' }}>
+        Автоприцепы и запчасти
+      </h2>
+
+      {/* Tabs */}
+      <div className="catalog-tabs">
+        {tabs.map((tab, i) => (
+          <button key={i} className={`catalog-tab ${activeTab === i ? 'active' : ''}`} onClick={() => setActiveTab(i)}>
+            {tab}
+          </button>
+        ))}
       </div>
-      
+
+      {/* Product grid */}
       {loading ? (
-        <div style={{ textAlign: 'center', padding: '2rem', fontSize: '1.2rem', color: '#94a3b8' }}>{t('loading')}</div>
+        <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)', fontSize: '1.2rem' }}>Загрузка...</div>
       ) : (
-        <div className="home-catalog-list" style={{display: 'flex', flexDirection: 'column', gap: '4rem', maxWidth: '1200px', margin: '0 auto', padding: '0 2rem'}}>
-          {trailers.map((trailer) => (
-            <div key={trailer.id} className="home-trailer-row" style={{
-              display: 'flex', 
-              alignItems: 'center',
-              flexWrap: 'wrap',
-              gap: '4rem',
-              background: 'linear-gradient(145deg, #131316 0%, #0a0a0c 100%)',
-              borderRadius: '32px',
-              padding: '3.5rem',
-              border: '1px solid rgba(255, 255, 255, 0.03)',
-              boxShadow: '0 30px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05)',
-              position: 'relative',
-              overflow: 'hidden',
-              transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
-            }}
-            onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-10px)'; e.currentTarget.style.boxShadow = '0 40px 80px rgba(0,229,124,0.15), inset 0 1px 0 rgba(255,255,255,0.1)'; }}
-            onMouseOut={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 30px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05)'; }}
-            >
-              
-              {/* Neon accent line */}
-              <div style={{position: 'absolute', top: 0, left: '10%', width: '80%', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(0,229,124,0.5), transparent)'}}></div>
-
-              <div className="home-trailer-info" style={{flex: '1 1 400px', zIndex: 2}}>
-                <h3 style={{fontSize: '3rem', fontWeight: '900', marginBottom: '1rem', color: '#ffffff', letterSpacing: '-1px', lineHeight: '1.1'}}>{trailer.title}</h3>
-                <p style={{fontSize: '1.1rem', color: '#a1a1aa', lineHeight: '1.7', marginBottom: '2.5rem', fontWeight: '400'}}>{trailer.description}</p>
-                
-                <div style={{display: 'flex', flexWrap: 'wrap', gap: '0.8rem', marginBottom: '3rem'}}>
-                  {trailer.features.map((feature, i) => (
-                    <div key={i} style={{
-                      display: 'flex', alignItems: 'center', gap: '0.5rem', 
-                      background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', 
-                      padding: '0.6rem 1.2rem', borderRadius: '100px',
-                      color: '#e4e4e7', fontSize: '0.9rem', fontWeight: '600', backdropFilter: 'blur(10px)'
-                    }}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00e57c" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                      {feature}
-                    </div>
-                  ))}
+        <div className="product-grid">
+          {trailers.map(trailer => (
+            <div key={trailer.id} className="product-card">
+              <div className="product-card-img-wrap">
+                <img src={trailer.imageUrl} alt={trailer.title} className="product-card-img" />
+                <div className="product-sale-badge">В НАЛИЧИИ</div>
+              </div>
+              <div className="product-card-body">
+                <div className="product-card-cat">ПРИЦЕП</div>
+                <h3 className="product-card-title">{trailer.title}</h3>
+                <div className="product-card-stars">
+                  {[1,2,3,4,5].map(s => <span key={s} style={{ color: '#f97316' }}>★</span>)}
                 </div>
-
-                <div style={{display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '3rem', justifyContent: 'flex-start', marginTop: '2rem', paddingTop: '2.5rem', borderTop: '1px solid rgba(255,255,255,0.05)'}}>
-                  <div>
-                    <div style={{color: '#71717a', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '0.3rem', fontWeight: '800'}}>Цена от</div>
-                    <div style={{fontSize: '2.5rem', fontWeight: '900', color: '#00e57c', textShadow: '0 0 20px rgba(0,229,124,0.3)'}}>${trailer.price.toLocaleString()}</div>
-                  </div>
-                  <div>
-                    <div style={{color: '#71717a', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '0.3rem', fontWeight: '800'}}>Гарантия</div>
-                    <div style={{fontSize: '1.5rem', fontWeight: '800', color: '#ffffff'}}>1 Год</div>
-                  </div>
-                  <button style={{
-                    marginLeft: 'auto',
-                    padding: '1.2rem 3rem', 
-                    fontSize: '1.1rem', 
-                    background: 'linear-gradient(45deg, #00e57c, #00b360)', 
-                    color: '#000', 
-                    fontWeight: '900', 
-                    border: 'none', 
-                    borderRadius: '12px', 
-                    cursor: 'pointer', 
-                    textTransform: 'uppercase',
-                    letterSpacing: '1px',
-                    boxShadow: '0 10px 25px rgba(0,229,124,0.4)',
-                    transition: 'all 0.3s ease'
-                  }}
-                  onMouseOver={(e) => { e.target.style.transform = 'scale(1.05)'; e.target.style.boxShadow = '0 15px 35px rgba(0,229,124,0.6)'; }}
-                  onMouseOut={(e) => { e.target.style.transform = 'scale(1)'; e.target.style.boxShadow = '0 10px 25px rgba(0,229,124,0.4)'; }}
-                  >
-                    Заказать
+                <div className="product-card-footer">
+                  <div className="product-card-price">{trailer.price.toLocaleString()} ₸</div>
+                  <button className="product-card-add-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                   </button>
                 </div>
               </div>
-
-              <div className="home-trailer-image" style={{flex: '1 1 400px', height: '450px', borderRadius: '24px', overflow: 'hidden', position: 'relative', boxShadow: '0 20px 40px rgba(0,0,0,0.8)'}}>
-                <div style={{position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,229,124,0.2) 0%, transparent 50%, rgba(0,0,0,0.8) 100%)', zIndex: 1, pointerEvents: 'none'}}></div>
-                <img src={trailer.imageUrl} alt={trailer.title} style={{width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.7s ease'}} 
-                  onMouseOver={(e) => e.target.style.transform = 'scale(1.1)'}
-                  onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
-                />
-              </div>
-
             </div>
           ))}
         </div>

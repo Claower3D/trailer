@@ -1,3 +1,277 @@
+/* ═══════════════════════════════════════════════════
+   INFO BLOCKS (left column of hero banner)
+═══════════════════════════════════════════════════ */
+.info-block {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  transition: var(--transition);
+}
+.info-block:hover {
+  border-color: var(--primary);
+  box-shadow: 0 4px 20px rgba(249,115,22,0.15);
+  transform: translateY(-2px);
+}
+.info-block-icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  background: rgba(249,115,22,0.1);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+}
+.info-block-title {
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--text-main);
+  margin-bottom: 0.5rem;
+}
+.info-block-text {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════════════
+   HERO BANNER IMAGE
+═══════════════════════════════════════════════════ */
+.hero-banner-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(90deg, var(--primary) 0%, #f59e0b 100%);
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  padding: 1.2rem 2rem;
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════════════════
+   CATEGORY CARDS
+═══════════════════════════════════════════════════ */
+.cat-card {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  overflow: hidden;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+}
+.cat-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 35px rgba(249,115,22,0.2);
+}
+.cat-card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  z-index: 1;
+}
+.cat-card-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+.cat-card-name {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--text-main);
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+.cat-card-btn {
+  margin-top: 1rem;
+  display: inline-block;
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 800;
+  padding: 0.6rem 1.4rem;
+  border-radius: 8px;
+  letter-spacing: 1px;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  text-transform: uppercase;
+  width: fit-content;
+}
+.cat-card-btn:hover {
+  background: var(--primary-hover);
+  box-shadow: 0 4px 15px rgba(249,115,22,0.5);
+}
+.cat-card-img {
+  width: 160px;
+  height: 110px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.4));
+  transition: transform 0.4s ease;
+}
+.cat-card:hover .cat-card-img {
+  transform: scale(1.08) translateX(-4px);
+}
+
+/* ═══════════════════════════════════════════════════
+   CATALOG TABS
+═══════════════════════════════════════════════════ */
+.catalog-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid var(--border-color);
+  margin-bottom: 2.5rem;
+  overflow-x: auto;
+}
+.catalog-tab {
+  padding: 1rem 1.8rem;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--transition);
+}
+.catalog-tab:hover {
+  color: var(--text-main);
+}
+.catalog-tab.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+/* ═══════════════════════════════════════════════════
+   PRODUCT GRID & CARDS
+═══════════════════════════════════════════════════ */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+.product-card {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+}
+.product-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(249,115,22,0.15);
+}
+.product-card-img-wrap {
+  position: relative;
+  height: 200px;
+  background: var(--surface-color-light);
+  overflow: hidden;
+}
+.product-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.product-card:hover .product-card-img {
+  transform: scale(1.05);
+}
+.product-sale-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: linear-gradient(135deg, var(--primary), #f59e0b);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.35rem 0.8rem;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.product-card-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+}
+.product-card-cat {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+.product-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.4;
+  margin-bottom: 0.2rem;
+}
+.product-card-stars {
+  font-size: 1rem;
+  letter-spacing: 2px;
+  margin-bottom: 0.5rem;
+}
+.product-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+.product-card-price {
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--primary);
+}
+.product-card-add-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: var(--primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.product-card-add-btn:hover {
+  background: var(--primary-hover);
+  transform: scale(1.1);
+  box-shadow: 0 4px 15px rgba(249,115,22,0.5);
+}
+
 .app-container {
   min-height: 100vh;
   display: flex;
