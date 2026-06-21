@@ -1,11 +1,3 @@
-# Build frontend
-FROM node:20-alpine AS frontend-builder
-WORKDIR /app/frontend
-COPY frontend/package*.json ./
-RUN npm install
-COPY frontend/ ./
-RUN npm run build
-
 # Build backend
 FROM golang:1.21-alpine AS backend-builder
 WORKDIR /app/backend
@@ -18,7 +10,8 @@ RUN go build -o main .
 FROM alpine:latest
 WORKDIR /app
 COPY --from=backend-builder /app/backend/main ./
-COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
+# We copy the pre-built dist folder directly from the source code
+COPY frontend/dist ./frontend/dist
 
 ENV STATIC_DIR="./frontend/dist"
 EXPOSE 8080
