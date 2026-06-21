@@ -100,42 +100,78 @@ function HomeCatalog() {
               alignItems: 'center',
               flexWrap: 'wrap',
               gap: '4rem',
-              background: '#131316',
-              borderRadius: '24px',
-              padding: '3rem',
-              border: '1px solid #1f1f22',
-              boxShadow: '0 20px 40px rgba(0,0,0,0.4)'
-            }}>
+              background: 'linear-gradient(145deg, #131316 0%, #0a0a0c 100%)',
+              borderRadius: '32px',
+              padding: '3.5rem',
+              border: '1px solid rgba(255, 255, 255, 0.03)',
+              boxShadow: '0 30px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05)',
+              position: 'relative',
+              overflow: 'hidden',
+              transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+            }}
+            onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-10px)'; e.currentTarget.style.boxShadow = '0 40px 80px rgba(0,229,124,0.15), inset 0 1px 0 rgba(255,255,255,0.1)'; }}
+            onMouseOut={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 30px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05)'; }}
+            >
               
-              <div className="home-trailer-info" style={{flex: '1 1 400px'}}>
-                <h3 style={{fontSize: '2.5rem', fontWeight: '900', marginBottom: '1.5rem', color: '#ffffff', letterSpacing: '-0.5px'}}>{trailer.title}</h3>
-                <p style={{fontSize: '1.1rem', color: '#a1a1aa', lineHeight: '1.6', marginBottom: '2rem'}}>{trailer.description}</p>
-                
-                <ul style={{listStyle: 'none', padding: 0, marginBottom: '2.5rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem'}}>
-                  {trailer.features.map((feature, i) => (
-                    <li key={i} style={{display: 'flex', alignItems: 'center', gap: '0.8rem', color: '#e4e4e7', fontSize: '0.95rem'}}>
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00e57c" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
+              {/* Neon accent line */}
+              <div style={{position: 'absolute', top: 0, left: '10%', width: '80%', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(0,229,124,0.5), transparent)'}}></div>
 
-                <div style={{display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '2rem', justifyContent: 'space-between', marginTop: '2rem', paddingTop: '2rem', borderTop: '1px solid #27272a'}}>
+              <div className="home-trailer-info" style={{flex: '1 1 400px', zIndex: 2}}>
+                <h3 style={{fontSize: '3rem', fontWeight: '900', marginBottom: '1rem', color: '#ffffff', letterSpacing: '-1px', lineHeight: '1.1'}}>{trailer.title}</h3>
+                <p style={{fontSize: '1.1rem', color: '#a1a1aa', lineHeight: '1.7', marginBottom: '2.5rem', fontWeight: '400'}}>{trailer.description}</p>
+                
+                <div style={{display: 'flex', flexWrap: 'wrap', gap: '0.8rem', marginBottom: '3rem'}}>
+                  {trailer.features.map((feature, i) => (
+                    <div key={i} style={{
+                      display: 'flex', alignItems: 'center', gap: '0.5rem', 
+                      background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', 
+                      padding: '0.6rem 1.2rem', borderRadius: '100px',
+                      color: '#e4e4e7', fontSize: '0.9rem', fontWeight: '600', backdropFilter: 'blur(10px)'
+                    }}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00e57c" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      {feature}
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '3rem', justifyContent: 'flex-start', marginTop: '2rem', paddingTop: '2.5rem', borderTop: '1px solid rgba(255,255,255,0.05)'}}>
                   <div>
-                    <div style={{color: '#71717a', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.2rem', fontWeight: '700'}}>Цена</div>
-                    <div style={{fontSize: '2.2rem', fontWeight: '900', color: '#00e57c'}}>${trailer.price.toLocaleString()}</div>
+                    <div style={{color: '#71717a', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '0.3rem', fontWeight: '800'}}>Цена от</div>
+                    <div style={{fontSize: '2.5rem', fontWeight: '900', color: '#00e57c', textShadow: '0 0 20px rgba(0,229,124,0.3)'}}>${trailer.price.toLocaleString()}</div>
                   </div>
                   <div>
-                    <div style={{color: '#71717a', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.2rem', fontWeight: '700'}}>Гарантия</div>
-                    <div style={{fontSize: '1.4rem', fontWeight: '800', color: '#ffffff'}}>1 Год</div>
+                    <div style={{color: '#71717a', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '0.3rem', fontWeight: '800'}}>Гарантия</div>
+                    <div style={{fontSize: '1.5rem', fontWeight: '800', color: '#ffffff'}}>1 Год</div>
                   </div>
-                  <button className="apply-btn" style={{padding: '1rem 2.5rem', fontSize: '1rem', background: '#00e57c', color: '#000', fontWeight: '800', border: 'none', borderRadius: '8px', cursor: 'pointer', textTransform: 'uppercase'}}>Заказать</button>
+                  <button style={{
+                    marginLeft: 'auto',
+                    padding: '1.2rem 3rem', 
+                    fontSize: '1.1rem', 
+                    background: 'linear-gradient(45deg, #00e57c, #00b360)', 
+                    color: '#000', 
+                    fontWeight: '900', 
+                    border: 'none', 
+                    borderRadius: '12px', 
+                    cursor: 'pointer', 
+                    textTransform: 'uppercase',
+                    letterSpacing: '1px',
+                    boxShadow: '0 10px 25px rgba(0,229,124,0.4)',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onMouseOver={(e) => { e.target.style.transform = 'scale(1.05)'; e.target.style.boxShadow = '0 15px 35px rgba(0,229,124,0.6)'; }}
+                  onMouseOut={(e) => { e.target.style.transform = 'scale(1)'; e.target.style.boxShadow = '0 10px 25px rgba(0,229,124,0.4)'; }}
+                  >
+                    Заказать
+                  </button>
                 </div>
               </div>
 
-              <div className="home-trailer-image" style={{flex: '1 1 400px', height: '400px', borderRadius: '16px', overflow: 'hidden', position: 'relative', background: '#000'}}>
-                <div style={{position: 'absolute', inset: 0, background: 'linear-gradient(45deg, rgba(0,229,124,0.05), transparent)', zIndex: 1}}></div>
-                <img src={trailer.imageUrl} alt={trailer.title} style={{width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease'}} />
+              <div className="home-trailer-image" style={{flex: '1 1 400px', height: '450px', borderRadius: '24px', overflow: 'hidden', position: 'relative', boxShadow: '0 20px 40px rgba(0,0,0,0.8)'}}>
+                <div style={{position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,229,124,0.2) 0%, transparent 50%, rgba(0,0,0,0.8) 100%)', zIndex: 1, pointerEvents: 'none'}}></div>
+                <img src={trailer.imageUrl} alt={trailer.title} style={{width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.7s ease'}} 
+                  onMouseOver={(e) => e.target.style.transform = 'scale(1.1)'}
+                  onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
+                />
               </div>
 
             </div>
