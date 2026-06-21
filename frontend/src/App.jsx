@@ -134,6 +134,100 @@ function About() {
   );
 }
 
+function Admin() {
+  const [trailers, setTrailers] = useState([]);
+  const [editingId, setEditingId] = useState(null);
+  const [formData, setFormData] = useState({ title: '', description: '', price: '', imageUrl: '', features: '' });
+
+  const API_URL = import.meta.env.DEV ? 'http://localhost:8080/api/trailers' : '/api/trailers';
+
+  const fetchTrailers = () => {
+    fetch(API_URL).then(res => res.json()).then(data => setTrailers(data));
+  };
+
+  useEffect(() => {
+    fetchTrailers();
+  }, []);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const payload = {
+      ...formData,
+      price: parseFloat(formData.price),
+      features: formData.features.split(',').map(f => f.trim())
+    };
+    const method = editingId ? 'PUT' : 'POST';
+    if (editingId) payload.id = editingId;
+
+    fetch(API_URL, {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(() => {
+      setEditingId(null);
+      setFormData({ title: '', description: '', price: '', imageUrl: '', features: '' });
+      fetchTrailers();
+    });
+  };
+
+  const handleDelete = (id) => {
+    if(window.confirm('Вы уверены?')) {
+      fetch(`${API_URL}?id=${id}`, { method: 'DELETE' }).then(() => fetchTrailers());
+    }
+  };
+
+  const handleEdit = (t) => {
+    setEditingId(t.id);
+    setFormData({
+      title: t.title,
+      description: t.description,
+      price: t.price,
+      imageUrl: t.imageUrl,
+      features: t.features.join(', ')
+    });
+  };
+
+  return (
+    <section className="section" style={{minHeight: '100vh', paddingTop: '120px'}}>
+      <div className="section-header">
+        <h2 className="section-title">Админ Панель</h2>
+      </div>
+      <div style={{maxWidth: '800px', margin: '0 auto', background: 'var(--surface-color)', padding: '2rem', borderRadius: '12px'}}>
+        <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '3rem'}}>
+          <input name="title" value={formData.title} onChange={handleChange} placeholder="Название" required style={{padding: '0.8rem', borderRadius: '8px', border: 'none'}} />
+          <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Описание" required style={{padding: '0.8rem', borderRadius: '8px', minHeight: '100px', border: 'none', fontFamily: 'inherit'}} />
+          <input name="price" type="number" value={formData.price} onChange={handleChange} placeholder="Цена ($)" required style={{padding: '0.8rem', borderRadius: '8px', border: 'none'}} />
+          <input name="imageUrl" value={formData.imageUrl} onChange={handleChange} placeholder="URL картинки" required style={{padding: '0.8rem', borderRadius: '8px', border: 'none'}} />
+          <input name="features" value={formData.features} onChange={handleChange} placeholder="Характеристики (через запятую)" required style={{padding: '0.8rem', borderRadius: '8px', border: 'none'}} />
+          <button type="submit" className="cta-btn" style={{marginTop: '1rem', width: '100%'}}>
+            {editingId ? 'Сохранить изменения' : 'Добавить прицеп'}
+          </button>
+          {editingId && <button type="button" onClick={() => {setEditingId(null); setFormData({ title: '', description: '', price: '', imageUrl: '', features: '' })}} className="cta-btn-outline" style={{width: '100%'}}>Отмена</button>}
+        </form>
+
+        <div style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
+          {trailers.map(t => (
+            <div key={t.id} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--bg-color)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--border-color)'}}>
+              <div>
+                <h4 style={{color: 'white', marginBottom: '0.2rem'}}>{t.title}</h4>
+                <p style={{color: 'var(--primary)', fontWeight: 'bold'}}>${t.price}</p>
+              </div>
+              <div style={{display: 'flex', gap: '0.5rem'}}>
+                <button onClick={() => handleEdit(t)} style={{background: 'var(--surface-color-light)', color: 'white', padding: '0.5rem 1rem', borderRadius: '4px'}}>Ред.</button>
+                <button onClick={() => handleDelete(t.id)} style={{background: '#ef4444', color: 'white', padding: '0.5rem 1rem', borderRadius: '4px'}}>Удалить</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function App() {
   const { t } = useTranslation();
   return (
@@ -145,6 +239,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/catalog" element={<Catalog />} />
             <Route path="/about" element={<About />} />
+            <Route path="/admin" element={<Admin />} />
           </Routes>
         </main>
         <footer className="footer">
