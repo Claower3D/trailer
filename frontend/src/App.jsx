@@ -45,18 +45,102 @@ function Header() {
 function Home() {
   const { t } = useTranslation();
   return (
-    <section className="hero">
-      <div className="hero-bg"></div>
-      <div className="hero-overlay"></div>
-      <div className="hero-content">
-        <span className="badge">{t('badge_premium')}</span>
-        <h1>{t('hero_title')}</h1>
-        <p>{t('hero_desc')}</p>
-        <div className="hero-buttons">
-          <Link to="/catalog" className="cta-btn">{t('btn_catalog')}</Link>
-          <button className="cta-btn-outline">{t('btn_video')}</button>
+    <>
+      <section className="hero">
+        <div className="hero-bg"></div>
+        <div className="hero-overlay"></div>
+        <div className="hero-content">
+          <span className="badge">{t('badge_premium')}</span>
+          <h1>{t('hero_title')}</h1>
+          <p>{t('hero_desc')}</p>
+          <div className="hero-buttons">
+            <Link to="/catalog" className="cta-btn">{t('btn_catalog')}</Link>
+            <button className="cta-btn-outline">{t('btn_video')}</button>
+          </div>
         </div>
+      </section>
+      <HomeCatalog />
+    </>
+  );
+}
+
+function HomeCatalog() {
+  const { t } = useTranslation();
+  const [trailers, setTrailers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const API_URL = import.meta.env.DEV ? 'http://localhost:8080/api/trailers' : '/api/trailers';
+    fetch(API_URL)
+      .then(res => res.json())
+      .then(data => {
+        setTrailers(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Error fetching trailers:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  return (
+    <section className="section" style={{ paddingTop: '80px', paddingBottom: '120px' }}>
+      <div className="section-header" style={{textAlign: 'center', marginBottom: '4rem'}}>
+        <h3 className="section-subtitle" style={{color: '#00e57c', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: '800'}}>{t('catalog_subtitle')}</h3>
+        <h2 className="section-title" style={{fontSize: '3rem', fontWeight: '900', marginTop: '1rem'}}>Выбор Моделей</h2>
       </div>
+      
+      {loading ? (
+        <div style={{ textAlign: 'center', padding: '2rem', fontSize: '1.2rem', color: '#94a3b8' }}>{t('loading')}</div>
+      ) : (
+        <div className="home-catalog-list" style={{display: 'flex', flexDirection: 'column', gap: '4rem', maxWidth: '1200px', margin: '0 auto', padding: '0 2rem'}}>
+          {trailers.map((trailer) => (
+            <div key={trailer.id} className="home-trailer-row" style={{
+              display: 'flex', 
+              alignItems: 'center',
+              gap: '4rem',
+              background: '#131316',
+              borderRadius: '24px',
+              padding: '3rem',
+              border: '1px solid #1f1f22',
+              boxShadow: '0 20px 40px rgba(0,0,0,0.4)'
+            }}>
+              
+              <div className="home-trailer-info" style={{flex: 1}}>
+                <h3 style={{fontSize: '2.5rem', fontWeight: '900', marginBottom: '1.5rem', color: '#ffffff', letterSpacing: '-0.5px'}}>{trailer.title}</h3>
+                <p style={{fontSize: '1.1rem', color: '#a1a1aa', lineHeight: '1.6', marginBottom: '2rem'}}>{trailer.description}</p>
+                
+                <ul style={{listStyle: 'none', padding: 0, marginBottom: '2.5rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem'}}>
+                  {trailer.features.map((feature, i) => (
+                    <li key={i} style={{display: 'flex', alignItems: 'center', gap: '0.8rem', color: '#e4e4e7', fontSize: '0.95rem'}}>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00e57c" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+
+                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '2rem', paddingTop: '2rem', borderTop: '1px solid #27272a'}}>
+                  <div>
+                    <div style={{color: '#71717a', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.2rem', fontWeight: '700'}}>Цена</div>
+                    <div style={{fontSize: '2.2rem', fontWeight: '900', color: '#00e57c'}}>${trailer.price.toLocaleString()}</div>
+                  </div>
+                  <div>
+                    <div style={{color: '#71717a', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.2rem', fontWeight: '700'}}>Гарантия</div>
+                    <div style={{fontSize: '1.4rem', fontWeight: '800', color: '#ffffff'}}>1 Год</div>
+                  </div>
+                  <button className="apply-btn" style={{padding: '1rem 2.5rem', fontSize: '1rem', background: '#00e57c', color: '#000', fontWeight: '800', border: 'none', borderRadius: '8px', cursor: 'pointer', textTransform: 'uppercase'}}>Заказать</button>
+                </div>
+              </div>
+
+              <div className="home-trailer-image" style={{flex: 1, height: '400px', borderRadius: '16px', overflow: 'hidden', position: 'relative', background: '#000'}}>
+                <div style={{position: 'absolute', inset: 0, background: 'linear-gradient(45deg, rgba(0,229,124,0.05), transparent)', zIndex: 1}}></div>
+                <img src={trailer.imageUrl} alt={trailer.title} style={{width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease'}} />
+              </div>
+
+            </div>
+          ))}
+        </div>
+      )}
     </section>
   );
 }
