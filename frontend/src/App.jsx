@@ -97,10 +97,179 @@ function Header() {
 function Home() {
   return (
     <>
+      <FullWidthBanner />
       <HeroBanner />
       <CategoryCards />
       <TrailerCatalog />
     </>
+  );
+}
+
+// ─── FULL WIDTH BANNER ────────────────────────────────────────────────────
+function FullWidthBanner() {
+  return (
+    <div style={{
+      width: '100%',
+      minHeight: '100vh',
+      position: 'relative',
+      overflow: 'hidden',
+      display: 'flex',
+      alignItems: 'center',
+      paddingTop: '80px',
+    }}>
+      {/* Background image */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        background: `url('/cargo_trailer.png') center/cover no-repeat`,
+        filter: 'brightness(0.4)',
+        zIndex: 0,
+      }} />
+
+      {/* Orange gradient overlay */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        background: 'linear-gradient(105deg, rgba(0,0,0,0.92) 0%, rgba(249,115,22,0.18) 50%, rgba(0,0,0,0.6) 100%)',
+        zIndex: 1,
+      }} />
+
+      {/* Content */}
+      <div style={{
+        position: 'relative',
+        zIndex: 2,
+        maxWidth: '1300px',
+        margin: '0 auto',
+        padding: '4rem 2rem',
+        width: '100%',
+      }}>
+        <div style={{ maxWidth: '700px' }}>
+          <div style={{
+            display: 'inline-block',
+            background: 'linear-gradient(135deg, #f97316, #f59e0b)',
+            color: '#fff',
+            fontSize: '0.78rem',
+            fontWeight: '800',
+            padding: '0.4rem 1.2rem',
+            borderRadius: '100px',
+            letterSpacing: '2px',
+            textTransform: 'uppercase',
+            marginBottom: '1.5rem',
+          }}>
+            🏆 Лидер рынка Казахстана
+          </div>
+
+          <h1 style={{
+            fontSize: 'clamp(2.5rem, 6vw, 5.5rem)',
+            fontWeight: '900',
+            color: '#ffffff',
+            lineHeight: '1.05',
+            letterSpacing: '-2px',
+            marginBottom: '1.5rem',
+          }}>
+            Прицепы для<br />
+            <span style={{ color: '#f97316' }}>настоящих</span> задач
+          </h1>
+
+          <p style={{
+            fontSize: '1.2rem',
+            color: 'rgba(255,255,255,0.7)',
+            lineHeight: '1.7',
+            marginBottom: '2.5rem',
+            maxWidth: '500px',
+          }}>
+            Широкий выбор прицепов для любого автомобиля. Гарантия 1 год, доставка по всему Казахстану. Рассрочка 0% через Kaspi.
+          </p>
+
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
+            <button style={{
+              padding: '1.1rem 2.8rem',
+              background: 'linear-gradient(135deg, #f97316, #f59e0b)',
+              color: '#fff',
+              fontWeight: '900',
+              fontSize: '1rem',
+              border: 'none',
+              borderRadius: '10px',
+              cursor: 'pointer',
+              textTransform: 'uppercase',
+              letterSpacing: '1px',
+              boxShadow: '0 10px 30px rgba(249,115,22,0.5)',
+              transition: 'all 0.3s ease',
+            }}
+            onMouseOver={e => { e.target.style.transform = 'translateY(-3px)'; e.target.style.boxShadow = '0 16px 40px rgba(249,115,22,0.65)'; }}
+            onMouseOut={e => { e.target.style.transform = 'translateY(0)'; e.target.style.boxShadow = '0 10px 30px rgba(249,115,22,0.5)'; }}
+            >
+              Смотреть каталог
+            </button>
+            <a href="tel:+77020111150" style={{
+              padding: '1.1rem 2.2rem',
+              background: 'rgba(255,255,255,0.08)',
+              color: '#fff',
+              fontWeight: '800',
+              fontSize: '1rem',
+              border: '2px solid rgba(255,255,255,0.25)',
+              borderRadius: '10px',
+              cursor: 'pointer',
+              textTransform: 'uppercase',
+              letterSpacing: '1px',
+              backdropFilter: 'blur(8px)',
+              transition: 'all 0.3s ease',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.6rem',
+              textDecoration: 'none',
+            }}
+            onMouseOver={e => e.currentTarget.style.borderColor = '#f97316'}
+            onMouseOut={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.25)'}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.6 19.79 19.79 0 0 1 1.61 5a2 2 0 0 1 1.99-2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.4a16 16 0 0 0 5.95 5.95l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              +7-702-011-11-50
+            </a>
+          </div>
+
+          {/* Stats row */}
+          <div style={{
+            display: 'flex',
+            gap: '3rem',
+            marginTop: '4rem',
+            flexWrap: 'wrap',
+          }}>
+            {[
+              { num: '500+', label: 'Прицепов в наличии' },
+              { num: '10 лет', label: 'На рынке' },
+              { num: '0%', label: 'Рассрочка' },
+            ].map((s, i) => (
+              <div key={i}>
+                <div style={{ fontSize: '2.5rem', fontWeight: '900', color: '#f97316', lineHeight: 1 }}>{s.num}</div>
+                <div style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.55)', marginTop: '0.3rem', fontWeight: '600' }}>{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Scroll indicator */}
+      <div style={{
+        position: 'absolute',
+        bottom: '2rem',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        zIndex: 2,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '0.5rem',
+        color: 'rgba(255,255,255,0.4)',
+        fontSize: '0.75rem',
+        fontWeight: '600',
+        letterSpacing: '1px',
+        textTransform: 'uppercase',
+        animation: 'bounceY 2s ease-in-out infinite',
+      }}>
+        <span>Прокрутить</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
   );
 }
 

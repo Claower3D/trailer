@@ -941,6 +941,11 @@
   to { opacity: 1; transform: translateX(0); }
 }
 
+@keyframes bounceY {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
+}
+
 /* Footer */
 .footer {
   background: #070a11;
