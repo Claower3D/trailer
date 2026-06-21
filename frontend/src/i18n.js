@@ -38,22 +38,22 @@ const resources = {
       "footer_rights": "All rights reserved."
     }
   },
-  de: {
+  kz: {
     translation: {
-      "nav_home": "Startseite",
-      "nav_catalog": "Modelle",
-      "nav_about": "Über uns",
-      "btn_call": "Rückruf anfordern",
-      "badge_premium": "Premium-Qualität 2026",
-      "hero_title": "Zuverlässige Anhänger für extreme Aufgaben",
-      "hero_desc": "Gebaut für Langlebigkeit. Entworfen für Komfort. Entdecken Sie unser neues Angebot an professionellen Anhängern für alle Arten von Frachttransporten.",
-      "btn_catalog": "Katalog ansehen",
-      "btn_video": "Video-Bewertung",
-      "catalog_subtitle": "Unser Sortiment",
-      "catalog_title": "Wählen Sie Ihren Anhänger",
-      "btn_buy": "Jetzt bestellen",
-      "loading": "Mit Datenbank synchronisieren...",
-      "footer_rights": "Alle Rechte vorbehalten."
+      "nav_home": "Басты бет",
+      "nav_catalog": "Модельдер",
+      "nav_about": "Біз туралы",
+      "btn_call": "Қоңырау шалу",
+      "badge_premium": "Премиум сапа 2026",
+      "hero_title": "Экстремалды міндеттерге арналған сенімді тіркемелер",
+      "hero_desc": "Төзімділік үшін жасалған. Ыңғайлылық үшін жобаланған. Жүк тасымалының барлық түрлеріне арналған кәсіби тіркемелердің жаңа моделін ашыңыз.",
+      "btn_catalog": "Каталогты көру",
+      "btn_video": "Бейне шолу",
+      "catalog_subtitle": "Модельдер қатары",
+      "catalog_title": "Өз тіркемеңізді таңдаңыз",
+      "btn_buy": "Тапсырыс беру",
+      "loading": "Дерекқормен синхрондау...",
+      "footer_rights": "Барлық құқықтар қорғалған."
     }
   }
 };
