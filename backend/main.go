@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"mime"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -91,6 +92,10 @@ func (h spaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	mime.AddExtensionType(".css", "text/css; charset=utf-8")
+	mime.AddExtensionType(".js", "application/javascript")
+	mime.AddExtensionType(".svg", "image/svg+xml")
+
 	http.HandleFunc("/api/trailers", trailersHandler)
 
 	distPath := os.Getenv("STATIC_DIR")
