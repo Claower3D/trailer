@@ -672,8 +672,8 @@
 }
 
 .dashboard-card {
-  background: var(--surface-color);
-  border: 1px solid var(--border-color);
+  background: #131316;
+  border: 1px solid #1f1f22;
   border-radius: 12px;
   padding: 1.5rem;
   display: flex;
@@ -685,9 +685,9 @@
 }
 
 .dashboard-card:hover {
-  border-color: rgba(255, 255, 255, 0.15);
+  border-color: #3f3f46;
   transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
 .dashboard-card-top {
