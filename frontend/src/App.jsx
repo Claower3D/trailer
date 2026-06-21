@@ -277,7 +277,35 @@ function FullWidthBanner() {
 function HeroBanner() {
   return (
     <section style={{ paddingTop: '90px', background: 'var(--bg-color)' }}>
-      <div style={{ maxWidth: '1300px', margin: '0 auto', padding: '3rem 2rem', display: 'flex', gap: '2rem', alignItems: 'stretch', flexWrap: 'wrap' }}>
+      {/* Section heading */}
+      <div style={{ textAlign: 'center', padding: '3rem 2rem 1rem' }}>
+        <div style={{
+          display: 'inline-block',
+          color: 'var(--primary)',
+          fontSize: '0.8rem',
+          fontWeight: '800',
+          letterSpacing: '3px',
+          textTransform: 'uppercase',
+          marginBottom: '0.8rem',
+          padding: '0.4rem 1.2rem',
+          border: '1px solid rgba(249,115,22,0.3)',
+          borderRadius: '100px',
+          background: 'rgba(249,115,22,0.08)',
+        }}>
+          Почему выбирают нас
+        </div>
+        <h2 style={{
+          fontSize: 'clamp(1.8rem, 4vw, 3rem)',
+          fontWeight: '900',
+          color: 'var(--text-main)',
+          letterSpacing: '-0.5px',
+          lineHeight: 1.1,
+        }}>
+          Наши преимущества и условия
+        </h2>
+      </div>
+
+      <div style={{ maxWidth: '1300px', margin: '0 auto', padding: '2rem 2rem 3rem', display: 'flex', gap: '2rem', alignItems: 'stretch', flexWrap: 'wrap' }}>
 
         {/* LEFT: Info blocks */}
         <div style={{ flex: '0 0 280px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
